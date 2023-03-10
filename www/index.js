@@ -8,9 +8,9 @@ const universe = Universe.new(width, height);
 
 // Some aesthetics
 const CELL_SIZE = 7; // px
-const GRID_COLOR = "#CCCCCC";
-const DEAD_COLOR = "#FFFFFF";
-const ALIVE_COLOR = "#000000";
+const GRID_COLOR = "#303030";
+const ALIVE_COLOR = "#ffffff";
+const DEAD_COLOR = "#000000";
 
 // Create canvas
 const canvas = document.getElementById("game-of-life-canvas");
@@ -111,11 +111,19 @@ playPauseButton.addEventListener("click", event => {
     }
 });
 
+// Probability slider
+const pSlider = document.getElementById("pSlider");
+const pValue = document.getElementById("pValue");
+pValue.textContent = pSlider.value;
+pSlider.addEventListener("input", (event) => {
+    pValue.textContent = event.target.value
+});
+
 // Randomize button
 const randomizeButton = document.getElementById("randomize-button");
 randomizeButton.textContent = "Random";
 randomizeButton.addEventListener("click", event => {
-    universe.randomize();
+    universe.randomize(pSlider.value);
     drawCells();
 });
 
@@ -164,3 +172,8 @@ pause();
 // Initial draw
 drawGrid();
 drawCells();
+
+
+// Initial conditions
+universe.randomize(pSlider.value);
+play();

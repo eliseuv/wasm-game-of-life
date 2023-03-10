@@ -142,9 +142,9 @@ impl Universe {
     }
 
     // Randomize state
-    pub fn randomize(&mut self) {
+    pub fn randomize(&mut self, p: f64) {
         for cell in &mut self.state {
-            *cell = if js_sys::Math::random() < 0.5 {
+            *cell = if js_sys::Math::random() < p {
                 Cell::Alive
             } else {
                 Cell::Dead
