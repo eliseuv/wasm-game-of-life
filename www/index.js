@@ -2,9 +2,9 @@ import { memory } from 'wasm-game-of-life/wasm_game_of_life_bg'
 import { Universe, Cell, Pattern } from "wasm-game-of-life"
 
 // Construct universe
-const width = 128;
-const height = 128;
-const universe = Universe.new(width, height);
+const nrows = 206;
+const ncols = 128;
+const universe = Universe.new(nrows, ncols);
 
 // Some aesthetics
 const CELL_SIZE = 7; // px
@@ -14,8 +14,8 @@ const DEAD_COLOR = "#000000";
 
 // Create canvas
 const canvas = document.getElementById("game-of-life-canvas");
-canvas.width = (CELL_SIZE + 1) * width + 1;
-canvas.height = (CELL_SIZE + 1) * height + 1;
+canvas.height = (CELL_SIZE + 1) * nrows + 1;
+canvas.width = (CELL_SIZE + 1) * ncols + 1;
 
 const ctx = canvas.getContext('2d');
 
@@ -24,32 +24,32 @@ const drawGrid = () => {
     ctx.strokeStyle = GRID_COLOR;
 
     // Vertical lines.
-    for (let i = 0; i <= width; i++) {
+    for (let i = 0; i <= ncols; i++) {
         ctx.moveTo(i * (CELL_SIZE + 1) + 1, 0);
-        ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1);
+        ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * nrows + 1);
     }
 
     // Horizontal lines.
-    for (let j = 0; j <= height; j++) {
+    for (let j = 0; j <= nrows; j++) {
         ctx.moveTo(0, j * (CELL_SIZE + 1) + 1);
-        ctx.lineTo((CELL_SIZE + 1) * width + 1, j * (CELL_SIZE + 1) + 1);
+        ctx.lineTo((CELL_SIZE + 1) * nrows + 1, j * (CELL_SIZE + 1) + 1);
     }
 
     ctx.stroke();
 };
 
-const getIndex = (row, column) => {
-    return row * width + column;
+const getIndex = (row, col) => {
+    return row * ncols + col;
 };
 
 const drawCells = () => {
     const statePtr = universe.state();
-    const state = new Uint8Array(memory.buffer, statePtr, width * height);
+    const state = new Uint8Array(memory.buffer, statePtr, nrows * ncols);
 
     ctx.beginPath();
 
-    for (let row = 0; row < height; row++) {
-        for (let col = 0; col < width; col++) {
+    for (let row = 0; row < nrows; row++) {
+        for (let col = 0; col < ncols; col++) {
             const idx = getIndex(row, col);
 
             ctx.fillStyle = state[idx] === Cell.Dead
@@ -117,6 +117,7 @@ const pValue = document.getElementById("pValue");
 pValue.textContent = pSlider.value;
 pSlider.addEventListener("input", (event) => {
     pValue.textContent = event.target.value
+    universe.randomize(pSlider.value)
 });
 
 // Randomize button
@@ -146,8 +147,8 @@ canvas.addEventListener("click", event => {
     const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
     const canvasTop = (event.clientY - boundingRect.top) * scaleY;
 
-    const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
-    const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
+    const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), ncols - 1);
+    const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), nrows - 1);
 
     if (event.ctrlKey) {
 
@@ -166,14 +167,24 @@ canvas.addEventListener("click", event => {
     drawCells();
 });
 
-// Start paused
-pause();
-
-// Initial draw
-drawGrid();
-drawCells();
+// Set initial state
+function init() {
 
 
-// Initial conditions
-universe.randomize(pSlider.value);
-play();
+    // Start paused
+    pause();
+
+    // Initial conditions
+    pSlider.value = 0.5
+    universe.randomize(pSlider.value);
+
+    // Initial draw
+    drawGrid();
+    drawCells();
+
+
+    play();
+
+}
+
+init();

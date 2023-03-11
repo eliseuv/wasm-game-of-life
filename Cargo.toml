@@ -12,6 +12,9 @@ default = ["console_error_panic_hook"]
 
 [dependencies]
 
+# Arrays
+ndarray = "0.15"
+
 # High-level interaction between Rust and JS
 wasm-bindgen = "0.2.63"
 
