@@ -46,7 +46,7 @@ where
     T: Clone,
 {
     // Constructor
-    pub fn new(nrows: usize, ncols: usize, cell_state: &T) -> Lattice2D<T> {
+    pub fn new(nrows: usize, ncols: usize, cell_state: T) -> Lattice2D<T> {
         let buffer = Array2::from_elem((nrows, ncols), cell_state);
         let buffer_next = buffer.clone();
 
@@ -215,12 +215,12 @@ impl Universe {
     }
 
     // Constructor set state
-    pub fn new(nrows: usize, ncols: usize, cell_state: Option<&Cell>) -> Universe {
+    pub fn new(nrows: usize, ncols: usize, cell_state: Option<Cell>) -> Universe {
         // Initialize panic hool
         utils::set_panic_hook();
 
         Universe {
-            lattice: Lattice2D::<Cell>::new(nrows, ncols, cell_state.unwrap_or(&Cell::Dead)),
+            lattice: Lattice2D::<Cell>::new(nrows, ncols, cell_state.unwrap_or(Cell::Dead)),
         }
     }
 

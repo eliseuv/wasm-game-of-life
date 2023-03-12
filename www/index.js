@@ -147,8 +147,8 @@ canvas.addEventListener("click", event => {
     const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
     const canvasTop = (event.clientY - boundingRect.top) * scaleY;
 
-    const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), ncols - 1);
-    const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), nrows - 1);
+    const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), nrows - 1);
+    const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), ncols - 1);
 
     if (event.ctrlKey) {
 
