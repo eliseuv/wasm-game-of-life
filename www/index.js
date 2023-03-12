@@ -2,7 +2,7 @@ import { memory } from 'wasm-game-of-life/wasm_game_of_life_bg'
 import { Universe, Cell, Pattern } from "wasm-game-of-life"
 
 // Construct universe
-const nrows = 206;
+const nrows = 128;
 const ncols = 128;
 const universe = Universe.new(nrows, ncols);
 
