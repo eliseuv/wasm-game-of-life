@@ -12,25 +12,37 @@
     <noscript>This page contains webassembly and javascript content, please enable javascript in your
         browser.</noscript>
 
-    <div>
+    <div class="parent grid-parent">
 
-        <div class="probabilitySelector">
-            <input type="range" class="slider" id="pSlider" name="pSlider" min="0" max="1" step="0.01" value="0.5">
-            <p>p = <output id="pValue"></output></p>
-            <button id="randomize-button"></button>
+        <div class="child controls">
+
+            <h1>Conway's Game of Life</h1>
+
+            <div class="probability-selector">
+                <h2>Fill probability</h2>
+                <input type="range" class="slider" id="pSlider" name="pSlider" min="0" max="1" step="0.01" value="0.5">
+                <p>p = <output id="pValue"></output></p>
+            </div>
+
+            <button class="big-button" id="play-pause-button">▶</button>
+
+            <div class="commands-list">
+                <h2>Keybindings</h2>
+                <li>Play/pause simulation: p</li>
+                <li>Randomize state: r</li>
+                <li>Clear state: c</li>
+            </div>
+
         </div>
 
-        <button id="clear-button"></button>
-
-        <div>
-            <button id="play-pause-button"></button>
+        <div class="child canvas">
+            <canvas id="game-of-life-canvas"></canvas>
         </div>
 
     </div>
 
-    <canvas id="game-of-life-canvas"></canvas>
-
     <script src="./bootstrap.js"></script>
+
 </body>
 
 </html>

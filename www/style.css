@@ -8,15 +8,21 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color-scheme: dark;
   background-color: black;
 }
 
-h1, h2 {
-    color: #aaaaaa;
+.grid-parent {
+  display: grid;
+  grid-template-columns: 1fr 1fr
 }
 
-p {
-  color: #aaaaaa;
+.controls {
+    width: 250px;
+}
+
+h1, h2, h3, h4 ,h5, h6, li, p {
+    color: #aaaaaa;
 }
 
 button {
@@ -24,6 +30,10 @@ button {
   color: #aaaaaa;
   border-radius: 5px;
   border-width: thin;
+}
+
+.big-button {
+    font-size: 32px;
 }
 
 .slider-container {
@@ -47,17 +57,25 @@ button {
 
 /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Override default look */
+  -webkit-appearance: none;
   appearance: none;
-  width: 15px; /* Set a specific slider handle width */
-  height: 15px; /* Slider handle height */
-  background: #aaaaaa; /* Green background */
-  cursor: pointer; /* Cursor on hover */
+  width: 15px;
+  height: 15px;
+  background: #aaaaaa;
+  cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-  width: 15px; /* Set a specific slider handle width */
-  height: 15px; /* Slider handle height */
-  background: #aaaaaa; /* Green background */
-  cursor: pointer; /* Cursor on hover */
+  width: 15px;
+  height: 15px;
+  background: #aaaaaa;
+  cursor: pointer;
+}
+
+.cell-alive {
+    color: #aaaaaa;
+}
+
+.cell-dead {
+    color: #ffffff;
 }

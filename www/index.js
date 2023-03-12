@@ -7,9 +7,9 @@ const ncols = 128;
 const universe = Universe.new(nrows, ncols);
 
 // Some aesthetics
-const CELL_SIZE = 7; // px
-const GRID_COLOR = "#303030";
-const ALIVE_COLOR = "#ffffff";
+const CELL_SIZE = 4; // px
+const GRID_COLOR = "#222222";
+const ALIVE_COLOR = "#aaaaaa";
 const DEAD_COLOR = "#000000";
 
 // Create canvas
@@ -32,7 +32,7 @@ const drawGrid = () => {
     // Horizontal lines.
     for (let j = 0; j <= nrows; j++) {
         ctx.moveTo(0, j * (CELL_SIZE + 1) + 1);
-        ctx.lineTo((CELL_SIZE + 1) * nrows + 1, j * (CELL_SIZE + 1) + 1);
+        ctx.lineTo((CELL_SIZE + 1) * ncols + 1, j * (CELL_SIZE + 1) + 1);
     }
 
     ctx.stroke();
@@ -78,11 +78,8 @@ const isPaused = () => {
 
 // Recursive loop to render
 const renderLoop = () => {
-
     universe.tick();
-
     drawCells();
-
     animationId = requestAnimationFrame(renderLoop);
 };
 
@@ -102,13 +99,17 @@ const pause = () => {
     animationId = null;
 };
 
-// On click event
-playPauseButton.addEventListener("click", event => {
+function playOrPause() {
     if (isPaused()) {
         play();
     } else {
         pause();
     }
+}
+
+// On click event
+playPauseButton.addEventListener("click", event => {
+    playOrPause();
 });
 
 // Probability slider
@@ -118,21 +119,6 @@ pValue.textContent = pSlider.value;
 pSlider.addEventListener("input", (event) => {
     pValue.textContent = event.target.value
     universe.randomize(pSlider.value)
-});
-
-// Randomize button
-const randomizeButton = document.getElementById("randomize-button");
-randomizeButton.textContent = "Random";
-randomizeButton.addEventListener("click", event => {
-    universe.randomize(pSlider.value);
-    drawCells();
-});
-
-// Clear button
-const clearButton = document.getElementById("clear-button");
-clearButton.textContent = "Clear"
-clearButton.addEventListener("click", event => {
-    universe.clear();
     drawCells();
 });
 
@@ -167,23 +153,41 @@ canvas.addEventListener("click", event => {
     drawCells();
 });
 
+function clearState() {
+    universe.clear()
+    drawCells();
+}
+
+function randomizeState() {
+    universe.randomize(pSlider.value)
+    drawCells();
+}
+
+// Key controls
+document.addEventListener("keydown", (event) => {
+    if (event.code == "KeyP") {
+        playOrPause();
+    }
+    else if (event.code == "KeyC") {
+        clearState();
+    }
+    else if (event.code == "KeyR") {
+        randomizeState();
+    }
+});
+
 // Set initial state
 function init() {
-
 
     // Start paused
     pause();
 
     // Initial conditions
-    pSlider.value = 0.5
-    universe.randomize(pSlider.value);
+    pSlider.value = 0.33
+    randomizeState();
 
     // Initial draw
     drawGrid();
-    drawCells();
-
-
-    play();
 
 }
 
